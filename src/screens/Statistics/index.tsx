@@ -1,15 +1,22 @@
 import { PercentNumber, PercentText } from "@components/PercentCard/styles";
 import { ArrowContent, ArrowReturnIcon, Container, Label, StatisticsContent, StatisticsContainer, StatisticsHeader, CardNumber, CardText, BigCard, SmallCardsContainer, SmallCard } from "./styles";
 import { useTheme } from "styled-components/native";
+import { useNavigation } from "@react-navigation/native";
 
 export function Statistics() {
 
     const { COLORS } = useTheme();
 
+    const navigation = useNavigation();
+
+    function handleGoBack() {
+        navigation.goBack();
+    }
+
     return (
         <Container>
             <StatisticsHeader>
-                <ArrowContent>
+                <ArrowContent onPress={handleGoBack}>
                     <ArrowReturnIcon />
                 </ArrowContent>
                 

@@ -1,4 +1,3 @@
-import { Home } from '@screens/Home/';
 import { StatusBar } from 'react-native';
 import { ThemeProvider } from 'styled-components/native';
 
@@ -10,7 +9,7 @@ import {
 
 import theme from './src/theme';
 import { Loading } from '@components/Loading';
-import { Statistics } from '@screens/Statistics';
+import { Routes } from './src/routes';
 
 export default function App() {
   const [fontsLoaded] = useFonts({ NunitoSans_400Regular, NunitoSans_700Bold });
@@ -22,7 +21,7 @@ export default function App() {
         backgroundColor="transparent"
         translucent
       />
-      { fontsLoaded ? <Statistics /> : <Loading /> }
+      { fontsLoaded ? <Routes /> : <Loading /> }
       
     </ThemeProvider>
   );

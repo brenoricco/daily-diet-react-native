@@ -1,4 +1,5 @@
 import { Meal } from "@components/Meal";
+import { useNavigation } from "@react-navigation/native";
 import { SectionList } from "react-native";
 import { ButtonNew, ButtonNewText, Container, ContentNew, Date, PlusIcon, Title } from "./styles";
 
@@ -60,11 +61,17 @@ export function Meals() {
         },
     ];
 
+    const navigation = useNavigation();
+
+    function handleGoToNew() {
+        navigation.navigate('new');
+    }
+
     return (
         <Container>
             <ContentNew>
                 <Title>Refeições</Title>
-                <ButtonNew>
+                <ButtonNew onPress={handleGoToNew}>
                     <PlusIcon />
                     <ButtonNewText>Nova refeição</ButtonNewText>
                 </ButtonNew>
