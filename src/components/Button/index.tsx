@@ -2,7 +2,7 @@ import { TouchableOpacityProps } from "react-native";
 import { ButtonContent, ButtonText, Icon } from "./styles";
 
 type Props = TouchableOpacityProps & {
-    icon: string;
+    icon?: string;
     name: string;
 }
 
