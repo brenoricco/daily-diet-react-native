@@ -1,4 +1,4 @@
-import { Meal } from "@components/Meal";
+import { Meal, MealDTO } from "@components/Meal";
 import { useNavigation } from "@react-navigation/native";
 import { SectionList } from "react-native";
 import { ButtonNew, ButtonNewText, Container, ContentNew, Date, PlusIcon, Title } from "./styles";
@@ -12,11 +12,13 @@ export function Meals() {
             data: [
                 {
                     name: 'X-Tudo',
+                    description: 'Sanduíche de pão integral com atum e salada de alface e tomate',
                     hour: '20:00',
                     status: false
                 },
                 {
                     name: 'X-Tudo2',
+                    description: 'Sanduíche de pão integral com atum e salada de alface e tomate',
                     hour: '20:00',
                     status: false
                 }
@@ -67,6 +69,10 @@ export function Meals() {
         navigation.navigate('new');
     }
 
+    function handleGoToDetails(item: MealDTO) {
+        navigation.navigate('details', { meal: item });
+    }
+
     return (
         <Container>
             <ContentNew>
@@ -80,7 +86,11 @@ export function Meals() {
             <SectionList
                 sections={[...DATA]}
                 renderItem={({item})=>(
-                    <Meal key={item.name+item.hour} data={item} />
+                    <Meal 
+                        key={item.name+item.hour} 
+                        data={item} 
+                        onPress={() => handleGoToDetails(item)}
+                    />
                 )}
                 renderSectionHeader={({section})=>(
                     <Date>{section.date}</Date>

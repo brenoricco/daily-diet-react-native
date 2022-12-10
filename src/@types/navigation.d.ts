@@ -1,3 +1,4 @@
+import { MealDTO } from "@components/Meal";
 import { ImageSourcePropType } from "react-native";
 
 export declare global {
@@ -11,6 +12,9 @@ export declare global {
                 message: string;
                 imagePath: ImageSourcePropType
             };
+            details: {
+                meal: MealDTO;
+            }
         }
     }
 }
