@@ -1,7 +1,8 @@
+import { Button } from "@components/Button";
 import { Meal, MealDTO } from "@components/Meal";
 import { useNavigation } from "@react-navigation/native";
 import { SectionList } from "react-native";
-import { ButtonNew, ButtonNewText, Container, ContentNew, Date, PlusIcon, Title } from "./styles";
+import { Container, ContentNew, Date, Title } from "./styles";
 
 export function Meals() {
 
@@ -77,10 +78,11 @@ export function Meals() {
         <Container>
             <ContentNew>
                 <Title>Refeições</Title>
-                <ButtonNew onPress={handleGoToNew}>
-                    <PlusIcon />
-                    <ButtonNewText>Nova refeição</ButtonNewText>
-                </ButtonNew>
+                <Button 
+                    icon="add"
+                    name="Nova refeição"
+                    onPress={handleGoToNew}
+                />
             </ContentNew>
 
             <SectionList

@@ -23,7 +23,7 @@ export const ButtonContent = styled.TouchableOpacity<Props>`
 
 export const ButtonText = styled.Text<Props>`
     ${({ theme, colorMode }) => css`
-        font-family: ${theme.FONT_FAMILY.REGULAR};
+        font-family: ${theme.FONT_FAMILY.BOLD};
         color: ${colorMode && colorMode === 'DARK' ? theme.COLORS.WHITE : theme.COLORS.GRAY_200};
         font-size: ${theme.FONT_SIZE.LG};
     `}

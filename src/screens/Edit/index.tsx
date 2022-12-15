@@ -1,27 +1,26 @@
 import { Button } from "@components/Button";
 import { Header } from "@components/Header";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { useState } from "react";
+
 import { useTheme } from "styled-components";
-import { Container } from "./styles";
+import { Container} from "./styles";
 
 import feedbackPositiveImg from '@assets/PositiveFeedback.png';
 import feedbackNegativeImg from '@assets/NegativeFeedback.png';
 import { Form } from "@components/Form";
 import { MealDTO } from "@utils/dtos/MealDTO";
 
+type RouteParams = {
+    meal: MealDTO;
+}
 
-
-export function New() {
+export function Edit() {
     const [ optionYesPress, setOptionYesPress ] = useState<boolean>(false);
+    const [ optionNoPress, setOptionNoPress ] = useState<boolean>(false);
 
-    const [formData, setFormData] = useState<MealDTO>({
-        id: '',
-        name: '',
-        description: '',
-        hour: '',
-        date: '',
-    });
+    const route = useRoute();
+    const { meal } = route.params as RouteParams;
 
     const theme = useTheme();
     const navigation = useNavigation();
@@ -54,14 +53,14 @@ export function New() {
     return (
         <Container>
             <Header 
-                title="Nova refeição" 
+                title="Editar refeição" 
                 color={theme.COLORS.GRAY_200}
                 backgroundColor={theme.COLORS.GRAY_500}
             />
-            <Form data={formData}>
+            <Form data={meal}>
                 <Button 
-                    icon="add" 
-                    name="Cadastrar refeição"
+                    icon="edit" 
+                    name="Salvar alterações"
                     onPress={addNewMeal}
                 />
             </Form>

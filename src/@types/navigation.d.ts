@@ -14,7 +14,10 @@ export declare global {
             };
             details: {
                 meal: MealDTO;
-            }
+            };
+            edit: {
+                meal: MealDTO;
+            };
         }
     }
 }

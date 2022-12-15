@@ -1,14 +1,22 @@
-import { Button } from '@components/Button';
-import { useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import { MealDTO } from '@utils/dtos/MealDTO';
+import { useCallback, useState } from 'react';
 import { View } from 'react-native';
 import { useTheme } from 'styled-components';
 import { Container, Content, Label, Input, InputContent, ButtonOption, Status, TextOption } from './styles';
 
 type Props = {
     children: JSX.Element;
+    data: MealDTO;
 }
 
-export function Form({ children }: Props) {
+export function Form({ data, children }: Props) {
+
+    const [nameValue, setNameValue] = useState<string>(data.name);
+    const [descriptionValue, setDescriptionValue] = useState<string>(data.description);
+    const [hourValue, setHourValue] = useState<string>(data.hour);
+    const [dateValue, setDateValue] = useState<string>(data.date);
+    const [statusValue, setStatusValue] = useState<boolean | undefined>(data.status);
 
     const [ optionYesPress, setOptionYesPress ] = useState<boolean>(false);
     const [ optionNoPress, setOptionNoPress ] = useState<boolean>(false);
@@ -30,15 +38,27 @@ export function Form({ children }: Props) {
         
     }
 
+    useFocusEffect(useCallback(() => {
+        if(statusValue === true) {
+            setOptionYesPress(true);
+        } else if(statusValue === false) {
+            setOptionNoPress(true);
+        }
+    }, []));
+
     return (
         <Container>
                 <View>
                     <Label>Nome</Label>
-                    <Input style={{ height: 42 }} />
+                    <Input 
+                        value={nameValue} 
+                        style={{ height: 42 }} 
+                    />
 
                     <Label>Descrição</Label>
                     <Input 
                         style={{ height: 142, textAlignVertical: 'top', paddingTop: 12, paddingBottom: 12 }}
+                        value={descriptionValue}
                         multiline={true}
                         numberOfLines={4}
                     />
@@ -47,6 +67,7 @@ export function Form({ children }: Props) {
                         <InputContent>
                             <Label>Data</Label>
                             <Input 
+                                value={dateValue}
                                 style={{ height: 42 }}
                             />
                         </InputContent>
@@ -54,6 +75,7 @@ export function Form({ children }: Props) {
                         <InputContent style={{ marginLeft: 12 }}>
                             <Label>Hora</Label>
                             <Input 
+                                value={hourValue}
                                 style={{ height: 42 }}
                             />
                         </InputContent>
