@@ -21,7 +21,11 @@ export const ButtonContent = styled.TouchableOpacity<Props>`
     padding: 16px 24px;
 `;
 
-export const ButtonText = styled.Text<Props>`
+type ButtonTextProps = {
+    colorMode: ColorModeProps;
+}
+
+export const ButtonText = styled.Text<ButtonTextProps>`
     ${({ theme, colorMode }) => css`
         font-family: ${theme.FONT_FAMILY.BOLD};
         color: ${colorMode && colorMode === 'DARK' ? theme.COLORS.WHITE : theme.COLORS.GRAY_200};

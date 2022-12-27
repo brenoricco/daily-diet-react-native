@@ -1,22 +1,23 @@
+import { Button, ButtonProps } from '@components/Button';
 import { useFocusEffect } from '@react-navigation/native';
 import { MealDTO } from '@utils/dtos/MealDTO';
 import { useCallback, useState } from 'react';
-import { View } from 'react-native';
+import { Alert, View } from 'react-native';
 import { useTheme } from 'styled-components';
 import { Container, Content, Label, Input, InputContent, ButtonOption, Status, TextOption } from './styles';
 
 type Props = {
-    children: JSX.Element;
+    button: ButtonProps;
     data: MealDTO;
+    onPress: (item: MealDTO) => void;
 }
 
-export function Form({ data, children }: Props) {
+export function Form({ data, button, onPress }: Props) {
 
     const [nameValue, setNameValue] = useState<string>(data.name);
     const [descriptionValue, setDescriptionValue] = useState<string>(data.description);
     const [hourValue, setHourValue] = useState<string>(data.hour);
     const [dateValue, setDateValue] = useState<string>(data.date);
-    const [statusValue, setStatusValue] = useState<boolean | undefined>(data.status);
 
     const [ optionYesPress, setOptionYesPress ] = useState<boolean>(false);
     const [ optionNoPress, setOptionNoPress ] = useState<boolean>(false);
@@ -38,10 +39,37 @@ export function Form({ data, children }: Props) {
         
     }
 
+    function isFormValid() : boolean {
+        if(nameValue && descriptionValue &&
+           hourValue && dateValue && (optionYesPress || optionNoPress)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    function handleOnPress() {
+
+        if(!isFormValid()) {
+            Alert.alert('Formulario inválido', 'Porfavor preencher todos os campos antes de continuar.')
+            return;
+        }
+
+        const newMeal = {
+            name: nameValue,
+            description: descriptionValue,
+            hour: hourValue,
+            date: dateValue,
+            status: optionYesPress
+        }
+
+        onPress(newMeal);
+    }
+
     useFocusEffect(useCallback(() => {
-        if(statusValue === true) {
+        if(data.status === true) {
             setOptionYesPress(true);
-        } else if(statusValue === false) {
+        } else if(data.status === false) {
             setOptionNoPress(true);
         }
     }, []));
@@ -53,12 +81,14 @@ export function Form({ data, children }: Props) {
                     <Input 
                         value={nameValue} 
                         style={{ height: 42 }} 
+                        onChangeText={setNameValue}
                     />
 
                     <Label>Descrição</Label>
                     <Input 
                         style={{ height: 142, textAlignVertical: 'top', paddingTop: 12, paddingBottom: 12 }}
                         value={descriptionValue}
+                        onChangeText={setDescriptionValue}
                         multiline={true}
                         numberOfLines={4}
                     />
@@ -68,6 +98,7 @@ export function Form({ data, children }: Props) {
                             <Label>Data</Label>
                             <Input 
                                 value={dateValue}
+                                onChangeText={setDateValue}
                                 style={{ height: 42 }}
                             />
                         </InputContent>
@@ -76,6 +107,7 @@ export function Form({ data, children }: Props) {
                             <Label>Hora</Label>
                             <Input 
                                 value={hourValue}
+                                onChangeText={setHourValue}
                                 style={{ height: 42 }}
                             />
                         </InputContent>
@@ -107,7 +139,12 @@ export function Form({ data, children }: Props) {
                 </View>
 
                 <View>
-                    { children }
+                    <Button
+                        name={button.name}
+                        icon={button.icon}
+                        colorMode={button.colorMode}
+                        onPress={handleOnPress}
+                    />
                 </View>
             </Container>
     );

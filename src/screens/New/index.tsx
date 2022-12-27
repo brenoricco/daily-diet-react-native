@@ -45,10 +45,9 @@ export function New() {
         return navigation.navigate('feedback', negativeFeedback);
     }
 
-    function addNewMeal() {
-
-        
-        navigateToFeedback();
+    function addNewMeal(item: MealDTO) {
+        console.log(item);
+        //navigateToFeedback();
     }
 
     return (
@@ -58,13 +57,14 @@ export function New() {
                 color={theme.COLORS.GRAY_200}
                 backgroundColor={theme.COLORS.GRAY_500}
             />
-            <Form data={formData}>
-                <Button 
-                    icon="add" 
-                    name="Cadastrar refeição"
-                    onPress={addNewMeal}
-                />
-            </Form>
+            <Form 
+                data={formData} 
+                button={{
+                    name: 'Cadastrar refeição', 
+                    icon: 'add'
+                }} 
+                onPress={addNewMeal}
+            />
         </Container>
     );
 }

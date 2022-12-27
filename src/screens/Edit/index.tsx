@@ -44,9 +44,8 @@ export function Edit() {
         return navigation.navigate('feedback', negativeFeedback);
     }
 
-    function addNewMeal() {
-
-        
+    function handleEditMeal(item: MealDTO) {
+        console.log(item);        
         navigateToFeedback();
     }
 
@@ -57,13 +56,14 @@ export function Edit() {
                 color={theme.COLORS.GRAY_200}
                 backgroundColor={theme.COLORS.GRAY_500}
             />
-            <Form data={meal}>
-                <Button 
-                    icon="edit" 
-                    name="Salvar alterações"
-                    onPress={addNewMeal}
-                />
-            </Form>
+            <Form 
+                data={meal}
+                button={{
+                    icon:'edit',
+                    name:'Salvar alterações'
+                }}
+                onPress={handleEditMeal}
+            />
         </Container>
     );
 }
