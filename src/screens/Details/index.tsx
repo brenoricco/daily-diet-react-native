@@ -1,9 +1,10 @@
 import { Button } from "@components/Button";
 import { Header } from "@components/Header";
-import { MealDTO } from "@components/Meal";
+import { MModal } from "@components/MModal";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { deleteMeal } from "@storage/meal/deleteMeal";
+import { MealDTO } from "@utils/dtos/MealDTO";
 import { useState } from "react";
-import { Modal, View } from "react-native";
 import { useTheme } from "styled-components";
 import { ButtonsContainer, Container, Content, DateTimeLabel, DateTimeValue, Description, Form, ModalButtonsContainer, ModalContainer, ModalContent, ModalTitle, Name, Status, StatusContent, StatusText } from "./styles";
 
@@ -20,6 +21,15 @@ export function Details() {
 
     const navigation = useNavigation();
 
+    async function handleDeleteMeal() {
+        await deleteMeal(meal);
+        return navigation.goBack();
+    }
+
+    async function handleDeleteCancel() {
+        setModalVisible(false);
+    }
+
     return (
         <Container status={meal.status}>
             <Header 
@@ -28,38 +38,13 @@ export function Details() {
                 backgroundColor={meal.status ? theme.COLORS.GREEN : theme.COLORS.RED}
             />
 
-            
-                <Modal
-                    animationType="fade"
-                    transparent={true}
-                    visible={modalVisible}
-                    onRequestClose={() => {
-                    setModalVisible(!modalVisible);
-                    }}
-                >
-                    <ModalContainer>
-                        <ModalContent>
-                            <ModalTitle>Deseja realmente excluir o registro da refeição?</ModalTitle>
-                            
-                            <ModalButtonsContainer>
-                                <Button 
-                                    style={{ marginRight: 14, marginTop: 8 }}
-                                    name="Cancelar"
-                                    colorMode="LIGHT"
-                                    onPress={() => setModalVisible(false)}
-                                />
-                                <Button 
-                                    style={{marginTop: 8}}
-                                    name="Sim, excluir"
-                                    onPress={() => {}}
-                                />
-                            </ModalButtonsContainer>                            
-                        </ModalContent>
-                    </ModalContainer>
-                </Modal>
-            
-
-            
+            <MModal 
+                title="Deseja realmente excluir o registro da refeição?"
+                visible={modalVisible}
+                btnAcceptName="Sim, excluir"
+                handleAccept={handleDeleteMeal}
+                handleCancel={handleDeleteCancel}
+            />
 
             <Form>
                 <Content>

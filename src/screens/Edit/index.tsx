@@ -1,7 +1,7 @@
 import { Button } from "@components/Button";
 import { Header } from "@components/Header";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useTheme } from "styled-components";
 import { Container} from "./styles";
@@ -10,23 +10,27 @@ import feedbackPositiveImg from '@assets/PositiveFeedback.png';
 import feedbackNegativeImg from '@assets/NegativeFeedback.png';
 import { Form } from "@components/Form";
 import { MealDTO } from "@utils/dtos/MealDTO";
+import { editMeal } from "@storage/meal/editMeal";
 
 type RouteParams = {
     meal: MealDTO;
 }
 
 export function Edit() {
-    const [ optionYesPress, setOptionYesPress ] = useState<boolean>(false);
-    const [ optionNoPress, setOptionNoPress ] = useState<boolean>(false);
-
+    const [mealToEdit, setMealToEdit] = useState<MealDTO>();
     const route = useRoute();
     const { meal } = route.params as RouteParams;
+    
 
     const theme = useTheme();
     const navigation = useNavigation();
 
-    function navigateToFeedback() {
-        if(optionYesPress) {
+    useEffect(() => {
+        setMealToEdit(meal);
+    }, [])
+
+    function navigateToFeedback(item: MealDTO) {
+        if(item.status === true) {
             const positiveFeedback = {
                 title: 'Continue assim!',
                 titleColor: theme.COLORS.GREEN_DARK,
@@ -44,9 +48,10 @@ export function Edit() {
         return navigation.navigate('feedback', negativeFeedback);
     }
 
-    function handleEditMeal(item: MealDTO) {
-        console.log(item);        
-        navigateToFeedback();
+    async function saveEdits(item: MealDTO) {
+        item.id = mealToEdit?.id;
+        await editMeal(item);
+        return navigateToFeedback(item);
     }
 
     return (
@@ -62,7 +67,7 @@ export function Edit() {
                     icon:'edit',
                     name:'Salvar alterações'
                 }}
-                onPress={handleEditMeal}
+                onPress={saveEdits}
             />
         </Container>
     );

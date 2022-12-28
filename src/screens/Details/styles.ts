@@ -2,7 +2,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import styled, { css } from "styled-components/native";
 
 export type StatusProps = {
-    status: boolean
+    status: boolean | undefined;
 }
 
 

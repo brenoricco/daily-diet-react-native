@@ -1,4 +1,5 @@
 import { Button, ButtonProps } from '@components/Button';
+import { MModal } from '@components/MModal';
 import { useFocusEffect } from '@react-navigation/native';
 import { MealDTO } from '@utils/dtos/MealDTO';
 import { useCallback, useState } from 'react';
@@ -13,6 +14,7 @@ type Props = {
 }
 
 export function Form({ data, button, onPress }: Props) {
+    const [modalVisible, setModalVisible] = useState(false);
 
     const [nameValue, setNameValue] = useState<string>(data.name);
     const [descriptionValue, setDescriptionValue] = useState<string>(data.description);
@@ -39,6 +41,10 @@ export function Form({ data, button, onPress }: Props) {
         
     }
 
+    function onModalOnClose() {
+        setModalVisible(false);
+    }
+
     function isFormValid() : boolean {
         if(nameValue && descriptionValue &&
            hourValue && dateValue && (optionYesPress || optionNoPress)) {
@@ -51,7 +57,7 @@ export function Form({ data, button, onPress }: Props) {
     function handleOnPress() {
 
         if(!isFormValid()) {
-            Alert.alert('Formulario inválido', 'Porfavor preencher todos os campos antes de continuar.')
+            setModalVisible(true);
             return;
         }
 
@@ -76,6 +82,13 @@ export function Form({ data, button, onPress }: Props) {
 
     return (
         <Container>
+                <MModal 
+                    title="Porfavor preencher todos os campos antes de continuar."
+                    visible={modalVisible}
+                    btnCancelName="OK"
+                    handleCancel={onModalOnClose}
+                />
+
                 <View>
                     <Label>Nome</Label>
                     <Input 

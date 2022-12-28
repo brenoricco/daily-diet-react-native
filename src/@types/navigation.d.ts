@@ -1,4 +1,5 @@
 import { MealDTO } from "@components/Meal";
+import { MealsListDTO } from "@utils/dtos/MealslListDTO";
 import { ImageSourcePropType } from "react-native";
 
 export declare global {

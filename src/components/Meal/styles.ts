@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components/native";
 
 type Props = {
-    status: boolean;
+    status: boolean | undefined;
 }
 
 export const Container = styled.TouchableOpacity`

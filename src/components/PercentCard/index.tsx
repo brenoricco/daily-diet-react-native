@@ -1,7 +1,22 @@
 import { useNavigation } from "@react-navigation/native";
+import { MealsListDTO } from "@utils/dtos/MealslListDTO";
+import { calculatePercentageInDiet } from "@utils/functions/statisticsCalculate";
+import { useEffect, useState } from "react";
 import { ArrowContent, ArrowIcon, Container, Content, PercentNumber, PercentText } from "./styles";
 
-export function PercentCard() {
+type Props = {
+    mealsList: MealsListDTO[];
+}
+
+export function PercentCard({ mealsList }: Props) {
+
+    const [ percentInDiet, setPercentInDiet ] = useState<number>();
+
+
+    useEffect(() => {
+        const percentageCalculated = calculatePercentageInDiet(mealsList);
+        setPercentInDiet(percentageCalculated);
+    }, [mealsList]);
 
     const navigation = useNavigation();
 
@@ -12,7 +27,7 @@ export function PercentCard() {
     return (
         <Container>           
             <Content>
-                <PercentNumber>90,86%</PercentNumber>
+                <PercentNumber>{percentInDiet?.toFixed(2)}%</PercentNumber>
                 <PercentText>das refeições dentro da dieta</PercentText>
             </Content>       
             <ArrowContent onPress={handleNavigate}>

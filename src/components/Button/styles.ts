@@ -8,7 +8,6 @@ type Props = {
 }
 
 export const ButtonContent = styled.TouchableOpacity<Props>`    
-    
     ${({ theme, colorMode }) => css`
         background-color: ${colorMode && colorMode === 'DARK' ? theme.COLORS.GRAY_200 : theme.COLORS.WHITE};
         border: 1px solid ${theme.COLORS.GRAY_200}

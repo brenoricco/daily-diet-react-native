@@ -9,14 +9,14 @@ import feedbackPositiveImg from '@assets/PositiveFeedback.png';
 import feedbackNegativeImg from '@assets/NegativeFeedback.png';
 import { Form } from "@components/Form";
 import { MealDTO } from "@utils/dtos/MealDTO";
+import { createMeal } from "@storage/meal/createMeal";
+import { getAllMeals } from "@storage/meal/getAllMeals";
 
 
 
 export function New() {
-    const [ optionYesPress, setOptionYesPress ] = useState<boolean>(false);
 
     const [formData, setFormData] = useState<MealDTO>({
-        id: '',
         name: '',
         description: '',
         hour: '',
@@ -26,8 +26,8 @@ export function New() {
     const theme = useTheme();
     const navigation = useNavigation();
 
-    function navigateToFeedback() {
-        if(optionYesPress) {
+    function navigateToFeedback(status: boolean | undefined) {
+        if(status) {
             const positiveFeedback = {
                 title: 'Continue assim!',
                 titleColor: theme.COLORS.GREEN_DARK,
@@ -45,9 +45,10 @@ export function New() {
         return navigation.navigate('feedback', negativeFeedback);
     }
 
-    function addNewMeal(item: MealDTO) {
-        console.log(item);
-        //navigateToFeedback();
+    async function addNewMeal(newMeal: MealDTO) {
+        await createMeal(newMeal);
+        await getAllMeals();
+        navigateToFeedback(newMeal.status);
     }
 
     return (
